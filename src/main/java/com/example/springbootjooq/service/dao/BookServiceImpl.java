@@ -19,13 +19,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book create(Book book) {
-         repository.insert(book);
+        repository.insert(book);
         return book;
     }
 
     @Override
     public Book update(Book book) {
-        return null;
+        repository.update(book);
+        return book;
     }
 
     @Override
