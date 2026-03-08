@@ -37,8 +37,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book getOne(int id) {
         Book book = repository.findById(id);
-        if(book == null){
-           throw new DataNotFoundException(MessageFormat.format("Book id {0} not found", String.valueOf(id)));
+        if (book == null) {
+            throw new DataNotFoundException(
+                    MessageFormat.format("Book with id {0} not found", id)
+            );
         }
         return book;
     }
