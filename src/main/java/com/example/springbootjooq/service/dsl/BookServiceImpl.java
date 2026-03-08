@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service(value = "BookServiceDSL")
@@ -34,18 +33,19 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getOne(int id) {
-        Optional<Book> book = repository.findById(id);
-        if(book.isEmpty()){
-           throw new DataNotFoundException(MessageFormat.format("Book id {0} not found", String.valueOf(id)));
-        }
-        return book.get();
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new DataNotFoundException(
+                                MessageFormat.format("Book with id {0} not found", id)
+                        ));
     }
 
     @Override
     public void deleteById(int id) {
-        boolean isDeleted = repository.deleteById(id);
-        if(!isDeleted){
-            throw new BadRequestException("Delete error, please check ID and try again");
+        if (!repository.deleteById(id)) {
+            throw new BadRequestException(
+                    MessageFormat.format("Failed to delete book with id {0}", id)
+            );
         }
     }
 
